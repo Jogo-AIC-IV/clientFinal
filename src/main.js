@@ -44,9 +44,11 @@ Vue.mixin({
 
 Vue.config.productionTip = false;
 
+const dev = true;
+
 Vue.use(new VueSocketIO({
     debug: true,
-    connection: SocketIO('http://localhost:3000', { origins:'*' }), //options object is Optional
+    connection: SocketIO(dev ? 'http://localhost:5000' : 'https://tiny-tower.herokuapp.com/', { origins:'*' }), //options object is Optional
   })
 );
 

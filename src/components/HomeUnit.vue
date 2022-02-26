@@ -123,11 +123,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .card {
-    transition: transform 125ms ease-in-out;
+    transition: margin 125ms ease-in-out;
 }
 
 .card.selected {
-    transform: translateY(-10px);
+    margin-bottom: 10px;
 }
 
 .progress-bar {

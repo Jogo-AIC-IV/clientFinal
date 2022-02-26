@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container">
-    <a class="text-center text-light mt-2 ms-2" data-bs-toggle="modal" data-bs-target="#modalDebug">DEBUG</a>
+    <!-- <a class="text-center text-light mt-2 ms-2" data-bs-toggle="modal" data-bs-target="#modalDebug">DEBUG</a> -->
     <div class="row" v-if="!user.authenticated">
       <div class="col-12">
         <form class="card" v-on:submit.prevent="handleLoginSubmit">
@@ -22,7 +22,7 @@
 
     <div class="row" v-else v-show="user.status == 'idle'">
       <div class="col-12 text-white">
-        <div class="d-flex justify-content-start align-items-center flex-row mb-3">
+        <div class="d-flex justify-content-start align-items-center flex-row mb-3 overflow-unit">
           <HomeUnit
           v-for="(unit, unitIndex) in defaultUnitTypes"
           :key="`table_type_unit_${unitIndex}`"
@@ -47,8 +47,8 @@
           <div class="col-12">
             <div class="card">
               <div class="card-body shadow-sm">
-                <div class="d-flex justify-content-between align-items-center flex-row">
-                  <div class="ms-3">
+                <div class="d-flex justify-content-between align-items-center flex-column">
+                  <div class="ms-3 mx-3 w-100 d-flex align-items-center justify-content-between">
                     <h2 class="text-dark text-start align-items-center d-flex flex-row" >
                       {{user.data.username || 'Sem nome'}}
                       <small class="ms-2 fs-5 px-3 py-2 rounded-pill border text-muted"><font-awesome-icon class="me-2" size="1x" icon="circle-chevron-up" />{{user.data.rank}}</small>  
@@ -137,11 +137,11 @@
       :socketId="socketId"
       :userId="oponentTable.userId"
       :tableIndex="0"
-      :rank="0"
-      :userName="oponentTable.userName"
+      :username="oponentTable.username"
       :unitList="oponentTable.unitList"
       :enemyList="oponentTable.enemyList"
       :owned="false"
+      :rank="oponentTable.rank"
       :unitPrice="oponentTable.unitPrice"
       :hideUnitImages="true"
       />
@@ -151,13 +151,13 @@
       :socketId="socketId"
       :userId="userTable.userId"
       :tableIndex="1"
-      :userName="user.data.username"
+      :username="userTable.username"
       :unitList="userTable.unitList"
       :enemyList="userTable.enemyList"
       :owned="true"
       :unitPrice="userTable.unitPrice"
       :hideUnitImages="false"
-      :rank="user.data.rank"
+      :rank="userTable.rank"
       v-on:handleUnitAddClick="handleUnitAddClick"
       v-on:handleUpgradeUnit="handleUpgradeUnit"
       />
@@ -169,7 +169,7 @@
           <div class="card-body">
             <h2 class="mb-3" v-if="user.status == 'won'">Você venceu com:</h2>
             <h2 class="mb-3" v-else>Você perdeu para:</h2>
-              <div class="d-flex justify-content-start align-items-center flex-row mb-3" v-if="user.status == 'won'">
+              <div class="d-flex justify-content-start align-items-center flex-row mb-3 overflow-unit" v-if="user.status == 'won'">
                 <TableUnit
                   v-for="(unit, unitIndex) in userTable.unitList"
                   :key="`result_unit_${unitIndex}`"
@@ -184,7 +184,7 @@
                   :price="unit.price"
                 />
               </div>
-              <div class="d-flex justify-content-start align-items-center flex-row mb-3" v-if="user.status == 'defeat'">
+              <div class="d-flex justify-content-start align-items-center flex-row mb-3 overflow-unit" v-if="user.status == 'defeat'">
                 <TableUnit
                   v-for="(unit, unitIndex) in oponentTable.unitList"
                   :key="`result_unit_${unitIndex}`"
@@ -265,8 +265,13 @@ export default {
     }
   },
   sockets: {
+    error: function(e) {
+      console.log(e);
+    },
     connect: function() {
       this.socketId = this.$socket.id;
+      console.log('Connected');
+      console.log('this.socketId', this.socketId);
       if(this.attempLocalLogin) {
         this.handleLoginSubmit();
       }
@@ -440,5 +445,9 @@ img {
   width: 50px;
   height: 50px;
   image-rendering: pixelated;
+}
+.overflow-unit {
+  overflow-x: auto;
+  overflow-y: visible;
 }
 </style>

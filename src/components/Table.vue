@@ -1,6 +1,6 @@
 <template>
     <div class="`col-12 ${owned ? 'order-1' : 'order-0'}`">
-        <div class="d-flex justify-content-start align-items-center flex-row mb-3 overflow-auto">
+        <div class="d-flex justify-content-start align-items-center flex-row mb-1 overflow-unit">
           <TableUnit
             v-for="(enemy, enemyIndex) in enemyList" 
             :key="`table_${tableIndex}_enemy_${enemyIndex}`"
@@ -21,7 +21,7 @@
             :hidden="true"
           />
         </div>
-        <div class="d-flex justify-content-start align-items-center flex-row mb-3 overflow-auto">
+        <div class="d-flex justify-content-start align-items-center flex-row mb-1 overflow-unit">
             <TableUnit
               v-for="(unit, unitIndex) in unitList" 
               :key="`table_${tableIndex}_unit_${unitIndex}`"
@@ -49,22 +49,38 @@
           <div class="col-12">
             <div class="card">
                 <div class="card-body shadow-sm">
-                    <div class=" d-flex justify-content-between align-items-center flex-row">
-                        <div>
-                            <h3 class="mb-2 text-muted text-start" >{{gold}} <font-awesome-icon class="ms-2" size="1x" icon="coins" /></h3>
-                            <button class="btn btn-success w-100 mb-3" v-on:click="handleUnitAddClick">Comprar Unidade {{unitPrice}} <font-awesome-icon class="ms-2" size="1x" icon="coins" /></button>
-                        </div>
-                        <div class="ms-3">
-                            <h2 class="text-dark text-start align-items-center d-flex flex-row" >
-                              {{userName || 'Sem nome'}}
-                              <small class="ms-2 fs-5 px-3 py-2 rounded-pill border text-muted"><font-awesome-icon class="me-2" size="1x" icon="circle-chevron-up" />{{rank}}</small>  
-                            </h2>
-                            <h3 class="mb-0 text-dark text-end" >{{life}}<small class="text-muted">/500 HP</small></h3>
-                        </div>
+                    <div class="d-flex justify-content-between">
+                      <h2 class="text-start align-items-center" >
+                        {{ username || 'Sem nome'}}
+                        <small class="ms-2 fs-6"><font-awesome-icon class="me-2" size="1x" icon="circle-chevron-up" />{{rank}}</small>  
+                      </h2>
+                      <h3 class="mb-0 text-dark text-start" >{{life}}<small class="text-muted"> / 500 HP</small></h3>
                     </div>
-                    <div class="progress">
-                        <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" :style="`width:${lifeWidth}%; height:50px;`"></div>
+                    <div class="progress mb-3" style="height: 20px">
+                        <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" :style="`width:${lifeWidth}%;`"></div>
                     </div>
+                    <div class=" d-flex justify-content-between align-items-center">
+                      <h3 class="mb-0 text-muted text-start flex-1">{{gold}} <font-awesome-icon class="ms-2" size="1x" icon="coins" /></h3>
+                      <button class="btn btn-success" v-on:click="handleUnitAddClick">Comprar Unidade {{unitPrice}} <font-awesome-icon class="ms-2" size="1x" icon="coins" /></button>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3" v-else>
+          <div class="col-12">
+            <div class="card border-danger">
+                <div class="card-body shadow-sm bg-dark text-white ">
+                  <div class="d-flex justify-content-between">
+                    <h2 class="text-start align-items-center" >
+                      {{ username || 'Sem nome'}}
+                      <small class="ms-2 fs-6 text-white"><font-awesome-icon class="me-2" size="1x" icon="circle-chevron-up" />{{rank}}</small>  
+                    </h2>
+                    <h3 class="mb-0 text-dark text-start text-white" >{{life}}<small class="text-muted"> / 500 HP</small></h3>
+                  </div>
+                  <div class="progress" style="height: 20px">
+                      <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" :style="`width:${lifeWidth}%;`"></div>
+                  </div>
                 </div>
             </div>
           </div>
@@ -89,7 +105,7 @@ export default {
     unitList:   Array,
     gold:       Number,
     life:       Number,
-    userName:   String,
+    username:   String,
     unitPrice:  Number,
     rank:       Number,
     hideUnitImages: { type: Boolean, default: false }
@@ -112,4 +128,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.overflow-unit {
+  overflow-x: auto;
+  overflow-y: visible;
+}
 </style>
