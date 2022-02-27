@@ -14,6 +14,7 @@
             :attack="enemy.attributes.attack.curr"
             :deffense="enemy.attributes.deffense.curr"
             :price="enemy.price"
+            :gold="gold"
           />
           <TableUnit
             v-if="enemyList.length == 0"
@@ -36,6 +37,7 @@
               :attack="unit.attributes.attack.curr"
               :deffense="unit.attributes.deffense.curr"
               :price="unit.price"
+              :gold="gold"
               v-on:handleUpgradeUnit="handleUpgradeUnit"
             />
             <TableUnit

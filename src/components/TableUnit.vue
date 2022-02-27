@@ -44,7 +44,8 @@
                     <!-- Upgrade button -->
                     <a
                     v-if="owned"
-                    class="list-group-item list-group-item-action list-group-item-secondary"
+                    class="list-group-item list-group-item-action"
+                    v-bind:class="gold >= price ? 'list-group-item-warning bg-warning' : 'list-group-item-secondary bg-secondary'"
                     v-on:click="handleUpgradeUnit">
                         <b>{{price}}</b>
                         <font-awesome-icon class="ms-1" size="1x" icon="coins"/>
@@ -80,6 +81,7 @@ export default {
       deffense:     { type: Number, default: 0 },
 
       price:        { type: Number, default: 0 },
+      gold:         { type: Number, default: 0 },
   },
   computed: {
       typeCapitalized() {
